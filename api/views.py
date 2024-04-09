@@ -26,6 +26,12 @@ class CreateRole(generics.CreateAPIView):
     serializer_class = RoleSerializer
     permission_classes = [IsAdminUser]
 
+class AdminCreateUser(generics.CreateAPIView):
+   queryset = User.objects.all()
+   serializer_class = UserSerializer
+   permission_classes = [IsAdminUser]
+
+
 class AssignRoleToUser(generics.CreateAPIView):
     """
     API endpoint to assign roles to users.
@@ -43,7 +49,7 @@ class AssignRoleToUser(generics.CreateAPIView):
           user = User.objects.get(username=username)
       except User.DoesNotExist:
           raise NotFound({"error": "User does not exist"})
-      
+
       try:
         role= Role.objects.get(name = role_name)
       except Role.DoesNotExist:
